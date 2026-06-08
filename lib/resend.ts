@@ -14,7 +14,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<{ success
       to:      TO,
       subject: `New inquiry from ${data.fullName} — ${data.service}`,
       html:    buildInternalEmail(data),
-      replyTo: data.email,
+      reply_to: data.email,
     });
     await resend.emails.send({
       from:    FROM,
