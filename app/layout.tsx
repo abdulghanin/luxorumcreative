@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     canonical: SITE_CONFIG.url,
     languages: { "en-US": SITE_CONFIG.url, "ar-AE": `${SITE_CONFIG.url}/ar` },
   },
-  icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
+  icons: { icon: "/favicon/favicon-32.svg", apple: "/favicon/apple-touch-icon.svg" },
 };
 
 export const viewport: Viewport = {

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" width="400" height="120">
+<defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#6366F1"/><stop offset="100%" stop-color="#818CF8"/></linearGradient></defs>
+<rect width="400" height="120" fill="#FFFFFF" rx="12"/>
+<polygon points="66,22 99,40 99,78 66,96 33,78 33,40" fill="#6366F1" opacity="0.07"/>
+<polygon points="66,22 99,40 99,78 66,96 33,78 33,40" fill="none" stroke="#6366F1" stroke-width="2"/>
+<rect x="50" y="36" width="11" height="34" rx="3.5" fill="#6366F1"/>
+<rect x="50" y="59" width="26" height="11" rx="3.5" fill="#6366F1"/>
+<circle cx="83" cy="40" r="6" fill="#818CF8" opacity="0.9"/>
+<text x="116" y="62" font-family="Inter,system-ui,sans-serif" font-size="30" font-weight="700" fill="#0B0F19" letter-spacing="-1">Luxorum</text>
+<text x="116" y="84" font-family="Inter,system-ui,sans-serif" font-size="12" fill="#6366F1" letter-spacing="6">CREATIVE</text>
+<line x1="116" y1="91" x2="370" y2="91" stroke="#E2E8F0" stroke-width="0.5"/>
+<text x="116" y="104" font-family="Inter,system-ui,sans-serif" font-size="9" fill="#94A3B8" letter-spacing="2">PREMIUM DIGITAL AGENCY · UAE</text>
+</svg>

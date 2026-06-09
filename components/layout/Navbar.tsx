@@ -1,6 +1,7 @@
 "use client";
 // components/layout/Navbar.tsx
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,12 +34,14 @@ export function Navbar() {
         isScrolled ? "bg-[#0B0F19]/90 backdrop-blur-xl border-b border-[#1E293B]" : "bg-transparent"
       )}>
         {/* Logo */}
-        <Link href="/" className="text-lg sm:text-xl font-bold flex-shrink-0" style={{
-          background: "linear-gradient(135deg,#6366F1,#818CF8)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}>
-          {SITE_CONFIG.name}
+        <Link href="/" className="flex items-center flex-shrink-0">
+          <Image
+            src="/logos/icon-mark.svg"
+            alt={SITE_CONFIG.name}
+            width={44}
+            height={44}
+            priority
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -54,18 +57,6 @@ export function Navbar() {
             </li>
           ))}
         </ul>
-
-        {/* Desktop CTA */}
-        <div className="hidden lg:flex items-center gap-3">
-          <Link href="/contact">
-            <motion.button
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-              className="bg-[#6366F1] hover:bg-[#818CF8] text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors whitespace-nowrap"
-            >
-              Start Your Project
-            </motion.button>
-          </Link>
-        </div>
 
         {/* Mobile hamburger */}
         <button
@@ -99,12 +90,13 @@ export function Navbar() {
           >
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-[#1E293B]">
-              <span className="text-base font-bold" style={{
-                background: "linear-gradient(135deg,#6366F1,#818CF8)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-              }}>
-                {SITE_CONFIG.name}
-              </span>
+              <Link href="/" className="flex items-center gap-3">
+                <Image src="/logos/icon-mark.svg" alt={SITE_CONFIG.name} width={36} height={36} priority />
+                <span className="text-base font-bold" style={{
+                  background: "linear-gradient(135deg,#6366F1,#818CF8)",
+                  WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+                }}>{SITE_CONFIG.name}</span>
+              </Link>
               <button
                 onClick={() => setIsMobileOpen(false)}
                 className="text-[#94A3B8] hover:text-[#F8FAFC] p-1 touch-manipulation"
