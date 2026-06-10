@@ -1,7 +1,7 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
 import { Inter } from "next/font/google";
+import { Suspense } from "react";
 import "@/styles/globals.css";
 
 import { SITE_CONFIG } from "@/constants";
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "Luxorum Creative | Web Design, Branding & AI Automation Agency UAE",
     description: "Premium digital agency in UAE providing web design, branding, AI automation, SEO and ecommerce solutions.",
     // With metadataBase set, relative paths are automatically resolved
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: SITE_CONFIG.name }], 
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: SITE_CONFIG.name }],
   },
   twitter: {
     card: "summary_large_image",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     creator: "@luxorumcreative",
     title: "Luxorum Creative | Web Design, Branding & AI Automation Agency UAE",
     description: "Premium digital agency in UAE providing web design, branding, AI automation, SEO and ecommerce solutions.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   icons: {
     icon: [{ url: "/favicon/favicon-32.svg", type: "image/svg+xml" }],
@@ -84,50 +84,53 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width: "device-width", 
   initialScale: 1,
   themeColor: "#0B0F19",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  // Upgraded Schema to ProfessionalService for better local SEO
   const organizationSchema = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService", 
+    "@type": "ProfessionalService",
+    "@id": `${SITE_CONFIG.url}/#organization`,
     name: "Luxorum Creative",
     url: SITE_CONFIG.url,
-    logo: `${SITE_CONFIG.url}/logo.png`,
-    image: `${SITE_CONFIG.url}/og-image.png`,
-    email: "contact@luxorumcreative.com",
+    logo: `${SITE_CONFIG.url}/logos/logo-dark.svg`,
+    image: `${SITE_CONFIG.url}/opengraph-image`,
+    email: SITE_CONFIG.email,
+    telephone: SITE_CONFIG.whatsapp,
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Dubai", // Add exact city if applicable
+      addressLocality: "Dubai",
       addressCountry: "AE",
     },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",
-      email: "contact@luxorumcreative.com",
+      email: SITE_CONFIG.email,
       availableLanguage: ["English", "Arabic"],
     },
     areaServed: ["United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait"],
-    // Add your actual social links here to build entity graph
     sameAs: [
-      "https://twitter.com/luxorumcreative",
-      "https://linkedin.com/company/luxorumcreative",
-      "https://instagram.com/luxorumcreative"
+      SITE_CONFIG.social.instagram,
+      SITE_CONFIG.social.linkedin,
+      SITE_CONFIG.social.twitter,
+      SITE_CONFIG.social.behance,
     ],
   };
 
   return (
     <html lang="en" dir="ltr" className={inter.variable} data-scroll-behavior="smooth">
       <body className={inter.className}>
-        <Script
+        <script
           id="organization-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <Analytics />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         <Navbar />
         <main>{children}</main>
         <Footer />

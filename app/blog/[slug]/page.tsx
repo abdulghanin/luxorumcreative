@@ -2,8 +2,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BLOG_POSTS, SITE_CONFIG } from "@/constants";
+import { BLOG_POSTS } from "@/constants";
 import { formatDate } from "@/lib/utils";
+import { createPageMetadata } from "@/lib/seo";
 
 export async function generateStaticParams() {
   return BLOG_POSTS.map(post => ({ slug: post.slug }));
@@ -13,11 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = BLOG_POSTS.find(p => p.slug === slug);
   if (!post) return {};
-  return {
+  return createPageMetadata({
     title: `${post.titleAr} | Luxorum Creative`,
     description: post.excerptAr,
-    openGraph: { title: post.titleAr, description: post.excerptAr, url: `${SITE_CONFIG.url}/blog/${post.slug}` },
-  };
+    path: `/blog/${post.slug}`,
+    type: "article",
+    publishedTime: post.date,
+  });
 }
 
 const postContent: Record<string, { intro: string; sections: { heading: string; body: string }[] }> = {

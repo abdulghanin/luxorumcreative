@@ -1,11 +1,33 @@
 "use client";
 // components/shared/Analytics.tsx
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
 
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (command: "js" | "config" | "event", targetId: string | Date, config?: Record<string, unknown>) => void;
+    clarity?: (...args: unknown[]) => void;
+  }
+}
+
 export function Analytics() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (!GA_ID || !window.gtag) return;
+
+    const query = searchParams.toString();
+    window.gtag("config", GA_ID, {
+      page_path: query ? `${pathname}?${query}` : pathname,
+    });
+  }, [pathname, searchParams]);
+
   return (
     <>
       {GA_ID && (
@@ -19,9 +41,7 @@ export function Analytics() {
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${GA_ID}', {
-                page_path: window.location.pathname,
-              });
+              gtag('config', '${GA_ID}');
             `}
           </Script>
         </>
@@ -42,7 +62,7 @@ export function Analytics() {
 }
 
 export function trackEvent(eventName: string, params?: Record<string, string>) {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", eventName, params);
+  if (typeof window !== "undefined" && window.gtag) {
+    window.gtag("event", eventName, params);
   }
 }

@@ -1,14 +1,15 @@
 // app/about/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { TEAM_MEMBERS, SITE_CONFIG } from "@/constants";
+import { TEAM_MEMBERS } from "@/constants";
 import { CTASection } from "@/components/home/CTASection";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "About Us | Luxorum Creative",
-  description: "Meet the team behind Luxorum Creative — the premium digital agency in the UAE and Gulf.",
-  openGraph: { title: "About Us — Luxorum Creative", url: `${SITE_CONFIG.url}/about` },
-};
+  description: "Meet the team behind Luxorum Creative, the premium digital agency in the UAE and Gulf.",
+  path: "/about",
+});
 
 const values = [
   { icon: "✨", title: "Excellence",          desc: "We refuse mediocrity in everything we deliver. Every detail reflects our high standard of quality." },

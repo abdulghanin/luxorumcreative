@@ -1,25 +1,31 @@
 // lib/resend.ts
+import "server-only";
 import { Resend } from "resend";
 import type { ContactFormData } from "@/types";
 
-const resend    = new Resend(process.env.RESEND_API_KEY);
+const resend    = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 const FROM      = process.env.FROM_EMAIL  ?? "noreply@luxorumcreative.com";
 const TO        = process.env.TO_EMAIL    ?? "contact@luxorumcreative.com";
 const BRAND     = "#6366F1";
 
 export async function sendContactEmail(data: ContactFormData): Promise<{ success: boolean; error?: string }> {
+  if (!resend) {
+    console.error("Resend API key is not configured.");
+    return { success: false, error: "Email service is not configured" };
+  }
+
   try {
     await resend.emails.send({
       from:    FROM,
       to:      TO,
-      subject: `New inquiry from ${data.fullName} — ${data.service}`,
+      subject: `New inquiry from ${data.fullName} - ${data.service}`,
       html:    buildInternalEmail(data),
       reply_to: data.email,
     });
     await resend.emails.send({
       from:    FROM,
       to:      data.email,
-      subject: "We received your message — Luxorum Creative",
+      subject: "We received your message - Luxorum Creative",
       html:    buildConfirmationEmail(data),
     });
     return { success: true };
@@ -30,7 +36,16 @@ export async function sendContactEmail(data: ContactFormData): Promise<{ success
 }
 
 function row(label: string, value: string) {
-  return `<div style="margin-bottom:14px"><div style="font-size:11px;color:#94A3B8;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">${label}</div><div style="font-size:14px;color:#F8FAFC;background:rgba(99,102,241,.06);border:1px solid #1E293B;border-radius:8px;padding:10px 14px">${value}</div></div>`;
+  return `<div style="margin-bottom:14px"><div style="font-size:11px;color:#94A3B8;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px">${escapeHtml(label)}</div><div style="font-size:14px;color:#F8FAFC;background:rgba(99,102,241,.06);border:1px solid #1E293B;border-radius:8px;padding:10px 14px">${escapeHtml(value).replace(/\n/g, "<br>")}</div></div>`;
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 function buildInternalEmail(d: ContactFormData) {
@@ -46,8 +61,8 @@ function buildInternalEmail(d: ContactFormData) {
   ${d.phone   ? row("Phone",   d.phone)   : ""}
   ${d.company ? row("Company", d.company) : ""}
   ${row("Service Required", d.service)}
-  ${row("Project Details", d.details.replace(/\n/g, "<br>"))}
-  <div style="text-align:center;margin-top:28px;font-size:11px;color:#475569">© ${new Date().getFullYear()} Luxorum Creative · Dubai, UAE</div>
+  ${row("Project Details", d.details)}
+  <div style="text-align:center;margin-top:28px;font-size:11px;color:#475569">&copy; ${new Date().getFullYear()} Luxorum Creative &middot; Dubai, UAE</div>
 </div></body></html>`;
 }
 
@@ -57,14 +72,14 @@ function buildConfirmationEmail(d: ContactFormData) {
 <div style="max-width:560px;margin:0 auto;background:#111827;border:1px solid #1E293B;border-radius:16px;padding:40px;text-align:center">
   <div style="font-size:26px;font-weight:700;color:${BRAND};margin-bottom:8px">Luxorum Creative</div>
   <div style="font-size:48px;margin:20px 0">✅</div>
-  <h2 style="font-size:20px;font-weight:600;margin:0 0 12px">Hi ${d.fullName}!</h2>
+  <h2 style="font-size:20px;font-weight:600;margin:0 0 12px">Hi ${escapeHtml(d.fullName)}!</h2>
   <p style="font-size:14px;color:#94A3B8;line-height:1.8;margin-bottom:20px">
     We received your inquiry and one of our experts will get back to you within <strong style="color:#F8FAFC">24 hours</strong> to discuss your project.
   </p>
-  <p style="font-size:13px;color:#94A3B8;margin-bottom:28px">Service: <strong style="color:#F8FAFC">${d.service}</strong></p>
+  <p style="font-size:13px;color:#94A3B8;margin-bottom:28px">Service: <strong style="color:#F8FAFC">${escapeHtml(d.service)}</strong></p>
   <a href="https://wa.me/971505032186" style="display:inline-block;background:${BRAND};color:#fff;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px">Chat on WhatsApp</a>
   <div style="margin-top:32px;font-size:11px;color:#475569">
-    <p>Luxorum Creative · Dubai, United Arab Emirates</p>
+    <p>Luxorum Creative &middot; Dubai, United Arab Emirates</p>
     <p>contact@luxorumcreative.com</p>
   </div>
 </div></body></html>`;

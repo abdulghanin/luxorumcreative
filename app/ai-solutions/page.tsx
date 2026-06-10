@@ -1,14 +1,14 @@
 // app/ai-solutions/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SITE_CONFIG } from "@/constants";
 import { CTASection } from "@/components/home/CTASection";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "AI Solutions | Luxorum Creative",
   description: "Advanced AI solutions for Gulf businesses: chatbots, automation, data analytics, content generation, and AI consultation.",
-  openGraph: { title: "AI Solutions — Luxorum Creative", url: `${SITE_CONFIG.url}/ai-solutions` },
-};
+  path: "/ai-solutions",
+});
 
 const aiServices = [
   { icon: "🤖", title: "Multilingual AI Chatbot", desc: "Sophisticated chatbots in Arabic and English operating 24/7, integrating with your website, WhatsApp, and social platforms.", features: ["Arabic & English support","WhatsApp integration","Auto-learning","Detailed analytics"] },

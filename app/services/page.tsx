@@ -1,14 +1,15 @@
 // app/services/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SERVICES, SITE_CONFIG } from "@/constants";
+import { SERVICES } from "@/constants";
 import { CTASection } from "@/components/home/CTASection";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Services | Luxorum Creative",
   description: "Premium digital services including brand identity, web design, web development, e-commerce, AI solutions, and digital marketing for Gulf businesses.",
-  openGraph: { title: "Services — Luxorum Creative", url: `${SITE_CONFIG.url}/services` },
-};
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (

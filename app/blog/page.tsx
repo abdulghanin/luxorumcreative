@@ -1,15 +1,16 @@
 // app/blog/page.tsx
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BLOG_POSTS, SITE_CONFIG } from "@/constants";
+import { BLOG_POSTS } from "@/constants";
 import { formatDate } from "@/lib/utils";
 import { CTASection } from "@/components/home/CTASection";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Blog | Luxorum Creative",
   description: "Insights and expertise in digital design, web development, and AI solutions for Gulf businesses.",
-  openGraph: { title: "Blog — Luxorum Creative", url: `${SITE_CONFIG.url}/blog` },
-};
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (

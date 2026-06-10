@@ -11,11 +11,13 @@ import { FAQSection }          from "@/components/home/FAQSection";
 import { CTASection }          from "@/components/home/CTASection";
 import { ContactForm }         from "@/components/home/ContactForm";
 import { SITE_CONFIG }         from "@/constants";
+import { createPageMetadata }  from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: `${SITE_CONFIG.name} | Premium Digital Agency in the Gulf`,
   description: SITE_CONFIG.description,
-};
+  path: "/",
+});
 
 const structuredData = {
   "@context": "https://schema.org",

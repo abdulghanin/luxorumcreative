@@ -42,6 +42,10 @@ export function Navbar() {
             height={44}
             priority
           />
+          <span className="ml-1 text-lg font-bold" style={{
+            background: "linear-gradient(135deg,#6366F1,#818CF8)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+          }}>{SITE_CONFIG.name}</span>
         </Link>
 
         {/* Desktop nav */}

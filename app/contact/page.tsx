@@ -2,12 +2,13 @@
 import type { Metadata } from "next";
 import { SITE_CONFIG } from "@/constants";
 import { ContactForm } from "@/components/home/ContactForm";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Contact Us | Luxorum Creative",
   description: "Get in touch with Luxorum Creative to start your digital project. Free consultation available.",
-  openGraph: { title: "Contact Us — Luxorum Creative", url: `${SITE_CONFIG.url}/contact` },
-};
+  path: "/contact",
+});
 
 const structuredData = {
   "@context": "https://schema.org", "@type": "ContactPage",
