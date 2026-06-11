@@ -36,7 +36,7 @@ export default function OpenGraphImage() {
           />
           <div style={{ fontSize: 34, fontWeight: 700 }}>{SITE_CONFIG.name}</div>
         </div>
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 70, lineHeight: 1.05, fontWeight: 800, letterSpacing: 0 }}>
             Premium websites, branding, and AI automation for Gulf businesses.
           </div>
